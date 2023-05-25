@@ -37,16 +37,16 @@ public class Test {
 
         Mat kernel = Imgproc.getStructuringElement(1,new Size(4,6));
         Mat kernel1 = Imgproc.getStructuringElement(1,new Size(2,3));
-        // Коррозия
-        Imgproc.erode(img, erodeImg, kernel,new Point(-1,-1),1);
-        // Expansion
-        Imgproc.dilate(erodeImg, dilateImg, kernel1);
+        // Расширяем темные области, сужаем светлые
+        Imgproc.erode(img, img, kernel,new Point(-1,-1),1);
+        // Расширяем светлые области, сужаем темные
+        Imgproc.dilate(img, img, kernel1);
         // Обнаружение края
-        Imgproc.threshold(dilateImg, threshImg, 20, 255, Imgproc.THRESH_BINARY);
+        Imgproc.threshold(img, img, 20, 255, Imgproc.THRESH_BINARY);
         // Преобразовать в оттенки серого
-        Imgproc.cvtColor(threshImg, threshImg, Imgproc.COLOR_RGB2GRAY);
+        Imgproc.cvtColor(img, img, Imgproc.COLOR_RGB2GRAY);
         // Находим схему (3: CV_RETR_TREE, 2: CV_CHAIN_APPROX_SIMPLE)
-        Imgproc.findContours(threshImg, contours, hierarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE, new Point(0,0));
+        Imgproc.findContours(img, contours, hierarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE, new Point(0,0));
 
         List<Rect> boundRect = new ArrayList<>(contours.size());
         float multiplierRect = 1.125f;
@@ -70,7 +70,7 @@ public class Test {
             }
             else if(rect.y + Math.round(rect.height * multiplierRect) + 2 > img2.height()) {
                 rect.y = rect.y - (Math.round(rect.height * multiplierRect) + 2);
-                rect.height = img2.width() - rect.y;
+                rect.height = img2.height() - rect.y;
             }
             else {
                 rect.y = rect.y - (Math.round(rect.height * multiplierRect) + 2);

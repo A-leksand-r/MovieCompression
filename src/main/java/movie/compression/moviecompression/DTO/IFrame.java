@@ -8,7 +8,10 @@ import java.util.List;
 public class IFrame {
     private Mat image;
     private List<PFrame> dependencyImage = new ArrayList<>();
-
+    public IFrame() {}
+    public IFrame(Mat image) {
+        this.image = image;
+    }
     public void setImage(Mat image) {
         this.image = image;
     }

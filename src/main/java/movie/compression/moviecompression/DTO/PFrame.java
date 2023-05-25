@@ -7,6 +7,10 @@ import java.util.List;
 
 public class PFrame {
     private List<FragmentsFrame> fragmentsFrame = new ArrayList<>();
+    public PFrame () {}
+    public PFrame(List<FragmentsFrame> fragmentsFrame) {
+        this.fragmentsFrame = fragmentsFrame;
+    }
 
     public void setFragmentsFrame(List<FragmentsFrame> fragmentsFrame) {
         this.fragmentsFrame = fragmentsFrame;
