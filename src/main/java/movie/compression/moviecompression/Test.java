@@ -28,7 +28,7 @@ public class Test {
 
         BufferedImage bufferedImage = new BufferedImage(img1.cols(), img1.rows(), BufferedImage.TYPE_BYTE_BINARY);
 
-        iFrame.setImage(ConverterImage.convertMatToByteArray(img1));
+        iFrame.setImage(ConverterImage.convertMatToByteArray(img1, "jpeg"));
         iFrame.getDependencyImage().add(pFrame);
         //Mat img2 = Imgcodecs.imread("src/main/resources/OutImage/test3/OutImageOriginal/23.jpeg");
         Mat img2 = Imgcodecs.imread("src/main/resources/OutImage/test2/OutImageOriginal/2.jpeg");
@@ -167,7 +167,7 @@ public class Test {
             }
 
             Imgcodecs.imwrite("src/main/resources/OutImage/test3/PartOfImage/croppedImage_1_2_" + i + ".jpeg", croppedImage);
-            pFrame.getFragmentsFrame().add(new FragmentsFrame(rect.x, rect.y, rect.width, rect.height, ConverterImage.convertMatToByteArray(croppedImage)));
+            pFrame.getFragmentsFrame().add(new FragmentsFrame(rect.x, rect.y, rect.width, rect.height, ConverterImage.convertMatToByteArray(croppedImage, "bmp")));
         }
         Imgcodecs.imwrite("src/main/resources/OutImage/test3/new_img_2.jpeg", new_img);
 

@@ -10,7 +10,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 public class ConverterImage {
-    public static byte[] convertMatToByteArray(Mat image) {
+    public static byte[] convertMatToByteArray(Mat image, String type) {
         BufferedImage bufferedImage;
         byte[] bytes = null;
         try {
@@ -18,7 +18,7 @@ public class ConverterImage {
             byte[] data = ((DataBufferByte) bufferedImage.getRaster().getDataBuffer()).getData();
             image.get(0, 0, data);
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            ImageIO.write(bufferedImage, "jpeg", byteArrayOutputStream);
+            ImageIO.write(bufferedImage, type, byteArrayOutputStream);
             bytes = byteArrayOutputStream.toByteArray();
         } catch(IOException e) {
             e.printStackTrace();

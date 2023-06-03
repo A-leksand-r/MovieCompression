@@ -14,10 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Encode {
-    static int g = 0;
-    private static final String filePathImageOriginal = "src/main/resources/OutImage/test2/OutImageOriginal/";
-    private static final String filePathImageDuplicate = "src/main/resources/OutImage/test2/OutImageDuplicate_2.0/";
-    private static final String filePathSerializedMovie = "src/main/resources/OutMovie/test2_Movie.jmc"; // jmc - Java Movie Compression
+    private static final String filePathImageOriginal = "S:/ImageForMovieCompression/OutImage/test2/OutImageOriginal/";
+    private static final String filePathImageDuplicate = "S:/ImageForMovieCompression/OutImage/test2/OutImageDuplicate_2.0/";
+    private static final String filePathSerializedMovie = "S:/ImageForMovieCompression/OutMovie/test2_Movie.jmc"; // jmc - Java Movie Compression
     private static final List<IFrame> IFrames = new ArrayList<>();
 
     private static final int framesCount = 464; // test2 - 464 кадра; test3 - 1200 кадров
@@ -38,7 +37,7 @@ public class Encode {
         for (int i = 0; i < framesCount; i++) {
             System.out.println("IFrame: " + i); // Какой IFrame кадр
             Mat IImage = Imgcodecs.imread(filePathImageOriginal + i + ".jpeg");
-            IFrame iFrame = new IFrame(ConverterImage.convertMatToByteArray(IImage));
+            IFrame iFrame = new IFrame(ConverterImage.convertMatToByteArray(IImage, "jpeg"));
             IFrames.add(iFrame);
             k++;
             i = getPFrameList(iFrame, i);
@@ -110,7 +109,7 @@ public class Encode {
             square += rect.width * rect.height;
             if (square > squareImage * 0.5) return null;
             Mat croppedImage = new Mat(image, Imgproc.boundingRect(contours.get(i)));
-            fragmentsFrame.add(new FragmentsFrame(rect.x, rect.y, rect.width, rect.height, ConverterImage.convertMatToByteArray(croppedImage)));
+            fragmentsFrame.add(new FragmentsFrame(rect.x, rect.y, rect.width, rect.height, ConverterImage.convertMatToByteArray(croppedImage, "bmp")));
 
         }
         System.out.println("Fragments: " + k); // количество фрагментов
@@ -136,11 +135,11 @@ public class Encode {
     }
 
     public static void createMovie() {
-        VideoWriter videoWriter = new VideoWriter("src/main/resources/OutMovie/output_test2.mp4", 0, 29.97, new Size(1920, 1080));
+        VideoWriter videoWriter = new VideoWriter("S:/ImageForMovieCompression/OutMovie/output_test2.mp4", 0, 29.97, new Size(1920, 1080));
         //VideoWriter videoWriter = new VideoWriter("src/main/resources/OutMovie/output_test3.mp4", 0, 60, new Size(1920, 1012));
         Mat frame;
         for (int i = 0; i < 464; i++) {
-            frame = Imgcodecs.imread("src/main/resources/OutImage/test2/OutImageDuplicate_2.0/" + i + ".jpeg");
+            frame = Imgcodecs.imread("S:/ImageForMovieCompression/OutImage/test2/OutImageDuplicate_2.0/" + i + ".jpeg");
             videoWriter.write(frame);
         }
         videoWriter.release();

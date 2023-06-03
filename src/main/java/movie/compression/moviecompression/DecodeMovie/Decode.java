@@ -1,5 +1,7 @@
 package movie.compression.moviecompression.DecodeMovie;
 
+import movie.compression.moviecompression.DTO.IFrame;
+import movie.compression.moviecompression.Tools.Serializer;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
@@ -8,6 +10,9 @@ import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.videoio.VideoCapture;
 import org.opencv.videoio.VideoWriter;
 
+import java.io.FileInputStream;
+import java.util.List;
+
 public class Decode {
     static {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
@@ -15,8 +20,7 @@ public class Decode {
 
     public static void main(String[] arg) {
         //Decode();
-
-        MatOfPoint matOfPoint = new MatOfPoint();
+        List<IFrame> IFrames = (List<IFrame>) Serializer.deserializationObject("S:/ImageForMovieCompression/MovieFile/test3/test3_Movie.jmc");
     }
 
     public static void Decode() {

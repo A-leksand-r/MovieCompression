@@ -13,12 +13,14 @@ public class Serializer {
             e.printStackTrace();
         }
     }
-    public static Object deserializationObject(Object objectDeserialization, String filePath) {
+    public static Object deserializationObject(String filePath) {
+        Object objectDeserialization;
         try {
             FileInputStream fileInput = new FileInputStream(filePath);
             ObjectInputStream deserialization = new ObjectInputStream(fileInput);
             objectDeserialization = deserialization.readObject();
         } catch (ClassNotFoundException | IOException e) {
+            objectDeserialization = null;
             e.printStackTrace();
         }
         return objectDeserialization;
