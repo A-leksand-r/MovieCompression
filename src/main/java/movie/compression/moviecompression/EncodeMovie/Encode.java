@@ -38,7 +38,6 @@ public class Encode {
         for (int i = 0; i < framesCount; i++) {
             System.out.println("IFrame: " + i); // Какой IFrame кадр
             Mat IImage = Imgcodecs.imread(filePathImageOriginal + i + ".jpeg");
-            Imgcodecs.imwrite("src/main/resources/Kal_2.0/" + g++ + ".jpeg", IImage);
             IFrame iFrame = new IFrame(ConverterImage.convertMatToByteArray(IImage));
             IFrames.add(iFrame);
             k++;
@@ -111,8 +110,6 @@ public class Encode {
             square += rect.width * rect.height;
             if (square > squareImage * 0.5) return null;
             Mat croppedImage = new Mat(image, Imgproc.boundingRect(contours.get(i)));
-            //Imgcodecs.imwrite("src/main/resources/OutImage/PartOfImage/croppedImage_1_2_" + i + ".jpeg", croppedImage);
-            Imgcodecs.imwrite("src/main/resources/Kal_2.0/" + g++ + ".jpeg", croppedImage);
             fragmentsFrame.add(new FragmentsFrame(rect.x, rect.y, rect.width, rect.height, ConverterImage.convertMatToByteArray(croppedImage)));
 
         }
