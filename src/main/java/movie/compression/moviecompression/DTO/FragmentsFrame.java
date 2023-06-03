@@ -3,12 +3,17 @@ package movie.compression.moviecompression.DTO;
 import org.opencv.core.Mat;
 import org.opencv.core.Rect;
 
-public class FragmentsFrame {
+import java.io.Serial;
+import java.io.Serializable;
+
+public class FragmentsFrame implements Serializable {
+    @Serial
+    private static final long serialVersion = 1L;
     private int x;
     private int y;
     private int width;
     private int height;
-    private Mat fragment;
+    private byte[] fragment;
     public FragmentsFrame() {}
 
     public void setWidth(int width) {
@@ -27,7 +32,7 @@ public class FragmentsFrame {
         return height;
     }
 
-    public FragmentsFrame (int x, int y, int width, int height, Mat fragment) {
+    public FragmentsFrame (int x, int y, int width, int height, byte[] fragment) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -42,7 +47,7 @@ public class FragmentsFrame {
         this.y = y;
     }
 
-    public void setFragment(Mat fragment) {
+    public void setFragment(byte[] fragment) {
         this.fragment = fragment;
     }
 
@@ -54,7 +59,7 @@ public class FragmentsFrame {
         return y;
     }
 
-    public Mat getFragment() {
+    public byte[] getFragment() {
         return fragment;
     }
 }

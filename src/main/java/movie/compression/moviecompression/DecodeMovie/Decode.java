@@ -2,6 +2,7 @@ package movie.compression.moviecompression.DecodeMovie;
 
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
+import org.opencv.core.MatOfPoint;
 import org.opencv.core.Size;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.videoio.VideoCapture;
@@ -13,15 +14,22 @@ public class Decode {
     }
 
     public static void main(String[] arg) {
-        VideoCapture cap = new VideoCapture("src/main/resources/test2.mp4");
-        VideoWriter videoWriter = new VideoWriter("src/main/resources/OutMovie/output_test2.mp4", 0, 29.97, new Size(1920, 1080));
+        //Decode();
+
+        MatOfPoint matOfPoint = new MatOfPoint();
+    }
+
+    public static void Decode() {
+        VideoCapture cap = new VideoCapture("src/main/resources/testMovie/test3.mp4");
+        //VideoWriter videoWriter = new VideoWriter("src/main/resources/OutMovie/output_test2.mp4", 0, 29.97, new Size(1920, 1080));
         Mat frame = new Mat();
         int k = 0;
         while(cap.read(frame)) {
-            frame = Imgcodecs.imread("src/main/resources/OutImage/OutImageDuplicate/" + k + ".png");
+            Imgcodecs.imwrite("src/main/resources/OutImage/test3/OutImageOriginal/" + k + ".jpeg", frame);
+            //frame = Imgcodecs.imread("src/main/resources/OutImage/OutImageOriginal/IPEG_Image" + k + ".jpeg");
             k++;
         }
-        videoWriter.release();
+        //videoWriter.release();
         cap.release();
         System.out.println(k);
     }
