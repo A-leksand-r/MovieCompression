@@ -10,4 +10,6 @@ module movie.compression.moviecompression {
 
     opens movie.compression.moviecompression to javafx.fxml;
     exports movie.compression.moviecompression;
+    exports movie.compression.moviecompression.Controllers;
+    opens movie.compression.moviecompression.Controllers to javafx.fxml;
 }

@@ -1,16 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 
-<?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="movie.compression.moviecompression.Controller">
+<VBox alignment="CENTER" prefHeight="670.0" prefWidth="1000.0" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="movie.compression.moviecompression.Controllers.Controller">
     <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
+   <HBox prefHeight="0.0" prefWidth="960.0" spacing="20">
+      <children>
+         <TextField fx:id="textField" prefHeight="25.0" prefWidth="822.0" />
+         <Button mnemonicParsing="false" onAction="#selectFile" prefHeight="25.0" prefWidth="117.0" text="Выбрать файл" />
+      </children>
+   </HBox>
+    <HBox prefHeight="0.0" prefWidth="960.0" spacing="20">
+        <children>
+            <TextField fx:id="filePath" prefHeight="25.0" prefWidth="822.0" />
+            <Button mnemonicParsing="false" onAction="#selectFile" prefHeight="25.0" prefWidth="117.0" text="Сохранить файл" />
+        </children>
+    </HBox>
+   <HBox prefHeight="0.0" prefWidth="960.0" spacing="20">
+      <children>
+         <ComboBox fx:id="comboBox" prefHeight="25.0" prefWidth="230.0" />
+          <Button onAction="#DisplayTheOriginalFrame" text="Отобразить кадр исходного видео" />
+          <Button onAction="#DisplayTheCompressedFrame" text="Отобразить кадр сжатого видео" />
+          <Button onAction="#Compressed" prefHeight="25.0" prefWidth="122.0" text="Сжать видео" />
+          <Button onAction="#PlayMovie" text="Воспроизвести видео" />
+      </children>
+   </HBox>
+   <ImageView fx:id="image" fitHeight="540" fitWidth="960" pickOnBounds="true" preserveRatio="true" />
 
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
+    <Label fx:id="welcomeText" />
 </VBox>

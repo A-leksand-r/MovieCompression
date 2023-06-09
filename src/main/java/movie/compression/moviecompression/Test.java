@@ -7,6 +7,8 @@ import movie.compression.moviecompression.Tools.ConverterImage;
 import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
+import org.opencv.videoio.VideoCapture;
+import org.opencv.videoio.VideoWriter;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -24,14 +26,14 @@ public class Test {
         Mat new_img = new Mat(1080, 1920, CvType.CV_8UC3, new Scalar(0));
 
         //Mat img1 = Imgcodecs.imread("src/main/resources/OutImage/test3/OutImageOriginal/0.jpeg");
-        Mat img1 = Imgcodecs.imread("src/main/resources/OutImage/test2/OutImageOriginal/1.jpeg");
+        Mat img1 = Imgcodecs.imread("S:/ImageForMovieCompression/OutImage/test2/OutImageOriginal/1.jpeg");
 
         BufferedImage bufferedImage = new BufferedImage(img1.cols(), img1.rows(), BufferedImage.TYPE_BYTE_BINARY);
 
         iFrame.setImage(ConverterImage.convertMatToByteArray(img1, "jpeg"));
         iFrame.getDependencyImage().add(pFrame);
         //Mat img2 = Imgcodecs.imread("src/main/resources/OutImage/test3/OutImageOriginal/23.jpeg");
-        Mat img2 = Imgcodecs.imread("src/main/resources/OutImage/test2/OutImageOriginal/2.jpeg");
+        Mat img2 = Imgcodecs.imread("S:/ImageForMovieCompression/OutImage/test2/OutImageOriginal/2.jpeg");
 
         Mat img = new Mat();
         Mat erodeImg = new Mat();
@@ -42,27 +44,28 @@ public class Test {
         Mat hierarchy = new Mat();
         // Пиксели делают плохо
         Core.absdiff(img1, img2, img);
-        Imgcodecs.imwrite("src/main/resources/OutImage/test3/1absdiff.jpeg", img);
+        Imgcodecs.imwrite("S:/ImageForMovieCompression/OutImage/test2/OutImageOriginal/1absdiff.jpeg", img);
 
         Mat kernel = Imgproc.getStructuringElement(1,new Size(4,4));
         Mat kernel1 = Imgproc.getStructuringElement(1,new Size(2,3));
         // Расширяем темные области, сужаем светлые
         Imgproc.erode(img, img, kernel,new Point(-1,-1),1);
-        Imgcodecs.imwrite("src/main/resources/OutImage/test3/2erode.jpeg", img);
+        Imgcodecs.imwrite("S:/ImageForMovieCompression/OutImage/test2/OutImageOriginal/2erode.jpeg", img);
         // Расширяем светлые области, сужаем темные
         Imgproc.dilate(img, img, kernel1);
-        Imgcodecs.imwrite("src/main/resources/OutImage/test3/3dilate.jpeg", img);
+        Imgcodecs.imwrite("S:/ImageForMovieCompression/OutImage/test2/OutImageOriginal/3dilate.jpeg", img);
         // Обнаружение края
         Imgproc.threshold(img, img, 20, 255, Imgproc.THRESH_BINARY);
-        Imgcodecs.imwrite("src/main/resources/OutImage/test3/4threshold.jpeg", img);
+        Imgcodecs.imwrite("S:/ImageForMovieCompression/OutImage/test2/OutImageOriginal/4threshold.jpeg", img);
         // Преобразовать в оттенки серого
         Imgproc.cvtColor(img, img, Imgproc.COLOR_RGB2GRAY);
-        Imgcodecs.imwrite("src/main/resources/OutImage/test3/5cvtColor.jpeg", img);
+        Imgcodecs.imwrite("S:/ImageForMovieCompression/OutImage/test2/OutImageOriginal/5cvtColor.jpeg", img);
         // Находим схему (3: CV_RETR_TREE, 2: CV_CHAIN_APPROX_SIMPLE)
         Imgproc.findContours(img, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE, new Point(0,0));
 
         List<Rect> boundRect = new ArrayList<>(contours.size());
         float multiplierRect = 1.125f;
+        String type = "jpeg";
         for(int i = 0; i < contours.size(); i++){
             Rect rect = Imgproc.boundingRect(contours.get(i));
 
@@ -134,7 +137,7 @@ public class Test {
                 rect.y = rect.y - (Math.round(rect.height * multiplierRect) + 2);
                 rect.height = 2 * (Math.round(rect.height * multiplierRect) + 2);
             }*/
-            /*if (rect.x < Math.round(rect.width * multiplierRect) + 2) {
+            if (rect.x < Math.round(rect.width * multiplierRect) + 2) {
                 rect.width = 2 * (Math.round(rect.width * multiplierRect) + 2) - rect.x;
                 rect.x = 0;
             }
@@ -157,7 +160,7 @@ public class Test {
             else {
                 rect.y = rect.y - (Math.round(rect.height * multiplierRect) + 2);
                 rect.height = 2 * (Math.round(rect.height * multiplierRect) + 2);
-            }*/
+            }
             boundRect.add(new Rect(rect.x, rect.y, rect.width, rect.height));
             Mat croppedImage = new Mat(img2, boundRect.get(i));
             /*Mat copyImage = new_img.submat(rect);
@@ -165,11 +168,13 @@ public class Test {
             if (i == 100) {
                 System.out.println(i);
             }
-
-            Imgcodecs.imwrite("src/main/resources/OutImage/test3/PartOfImage/croppedImage_1_2_" + i + ".jpeg", croppedImage);
-            pFrame.getFragmentsFrame().add(new FragmentsFrame(rect.x, rect.y, rect.width, rect.height, ConverterImage.convertMatToByteArray(croppedImage, "bmp")));
+            if (rect.width * rect.height < 196)
+                type = "bmp";
+            else type = "jpeg";
+            //Imgcodecs.imwrite("src/main/resources/OutImage/test3/PartOfImage/croppedImage_1_2_" + i + ".jpeg", croppedImage);
+            pFrame.getFragmentsFrame().add(new FragmentsFrame(rect.x, rect.y, rect.width, rect.height, type, ConverterImage.convertMatToByteArray(croppedImage, "bmp")));
         }
-        Imgcodecs.imwrite("src/main/resources/OutImage/test3/new_img_2.jpeg", new_img);
+        //Imgcodecs.imwrite("src/main/resources/OutImage/test3/new_img_2.jpeg", new_img);
 
         /*Mat copy_new_img = new_img.clone();
         contours = new ArrayList<>();
@@ -198,25 +203,47 @@ public class Test {
             Imgproc.rectangle(new_img, Imgproc.boundingRect(contours.get(i)).tl(), Imgproc.boundingRect(contours.get(i)).br(), color, 2, Imgproc.LINE_8, 0);
         }*/
 
-        Imgcodecs.imwrite("src/main/resources/OutImage/test3/new_img_3.jpeg", new_img);
-
-        /*for(int i = 0; i < contours.size(); i++){
-            *//*if (hierarchy.get(0, i) < 0) {
-                continue;
-            }*//*
-            //Mat copy = img1.clone();
+        //Imgcodecs.imwrite("src/main/resources/OutImage/test3/new_img_3.jpeg", new_img);
+        for(int i = 0; i < contours.size(); i++){
             Scalar color = new Scalar(0,0,255);
             // Рисуем контур
-        	Imgproc.drawContours(img1, contours, i, color, 1, Imgproc.LINE_8, hierarchy, 0, new Point());
+            Imgproc.drawContours(img1, contours, i, color, 1, Imgproc.LINE_8, hierarchy, 0, new Point());
             // Рисуем прямоугольник
             //Imgproc.rectangle(img1, boundRect.get(i).tl(), boundRect.get(i).br(), color, 2, Imgproc.LINE_8, 0);
             //System.out.println(Arrays.toString(hierarchy.get(0, i)));
             //Imgcodecs.imwrite("src/main/resources/OutImage/test3/copy.jpeg", copy);
-        }*/
+        }
 
         /*Imgcodecs.imwrite("src/main/resources/OutImage/OutImageOriginal/erode_1_2.jpeg", erodeImg);
         Imgcodecs.imwrite("src/main/resources/OutImage/OutImageOriginal/dilate_1_2.jpeg", dilateImg);
         Imgcodecs.imwrite("src/main/resources/OutImage/OutImageOriginal/thresh_1_2.jpeg", threshImg);*/
-        Imgcodecs.imwrite("src/main/resources/OutImage/test3/img1_1_3.jpeg", img1);
+        Imgcodecs.imwrite("S:/ImageForMovieCompression/OutImage/test2/OutImageOriginal/img1_1_3.jpeg", img1);
+    }
+
+    public static void Decode() {
+        VideoCapture cap = new VideoCapture("src/main/resources/testMovie/test3.mp4");
+        //VideoWriter videoWriter = new VideoWriter("src/main/resources/OutMovie/output_test2.mp4", 0, 29.97, new Size(1920, 1080));
+        Mat frame = new Mat();
+        int k = 0;
+        while(cap.read(frame)) {
+            Imgcodecs.imwrite("src/main/resources/OutImage/test3/OutImageOriginal/" + k + ".jpeg", frame);
+            //frame = Imgcodecs.imread("src/main/resources/OutImage/OutImageOriginal/IPEG_Image" + k + ".jpeg");
+            k++;
+        }
+        //videoWriter.release();
+        cap.release();
+        System.out.println(k);
+    }
+
+
+    public static void createMovie() {
+        VideoWriter videoWriter = new VideoWriter("S:/ImageForMovieCompression/OutMovie/output_test2.mp4", 0, 29.97, new Size(1920, 1080));
+        //VideoWriter videoWriter = new VideoWriter("src/main/resources/OutMovie/output_test3.mp4", 0, 60, new Size(1920, 1012));
+        Mat frame;
+        for (int i = 0; i < 464; i++) {
+            frame = Imgcodecs.imread("S:/ImageForMovieCompression/OutImage/test2/OutImageDuplicate_2.0/" + i + ".jpeg");
+            videoWriter.write(frame);
+        }
+        videoWriter.release();
     }
 }

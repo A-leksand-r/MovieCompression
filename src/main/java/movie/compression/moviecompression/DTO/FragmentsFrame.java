@@ -13,9 +13,23 @@ public class FragmentsFrame implements Serializable {
     private int y;
     private int width;
     private int height;
+    private String type;
     private byte[] fragment;
     public FragmentsFrame() {}
-
+    public FragmentsFrame (int x, int y, int width, int height, String type, byte[] fragment) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.type = type;
+        this.fragment = fragment;
+    }
+    public void setType(String type) {
+        this.type = type;
+    }
+    public String getType() {
+        return type;
+    }
     public void setWidth(int width) {
         this.width = width;
     }
@@ -32,13 +46,7 @@ public class FragmentsFrame implements Serializable {
         return height;
     }
 
-    public FragmentsFrame (int x, int y, int width, int height, byte[] fragment) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        this.fragment = fragment;
-    }
+
     public void setX(int x) {
         this.x = x;
     }
