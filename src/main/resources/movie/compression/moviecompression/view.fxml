@@ -12,13 +12,13 @@
    <HBox prefHeight="0.0" prefWidth="960.0" spacing="20">
       <children>
          <TextField fx:id="textField" prefHeight="25.0" prefWidth="822.0" />
-         <Button mnemonicParsing="false" onAction="#selectFile" prefHeight="25.0" prefWidth="117.0" text="Выбрать файл" />
+         <Button mnemonicParsing="false" onAction="#selectFileInput" prefHeight="25.0" prefWidth="117.0" text="Выбрать файл" />
       </children>
    </HBox>
     <HBox prefHeight="0.0" prefWidth="960.0" spacing="20">
         <children>
             <TextField fx:id="filePath" prefHeight="25.0" prefWidth="822.0" />
-            <Button mnemonicParsing="false" onAction="#selectFile" prefHeight="25.0" prefWidth="117.0" text="Сохранить файл" />
+            <Button mnemonicParsing="false" onAction="#selectFileOutput" prefHeight="25.0" prefWidth="117.0" text="Сохранить файл" />
         </children>
     </HBox>
    <HBox prefHeight="0.0" prefWidth="960.0" spacing="20">
@@ -30,7 +30,5 @@
           <Button onAction="#PlayMovie" text="Воспроизвести видео" />
       </children>
    </HBox>
-   <ImageView fx:id="image" fitHeight="540" fitWidth="960" pickOnBounds="true" preserveRatio="true" />
-
-    <Label fx:id="welcomeText" />
+   <ImageView fx:id="imageView" fitHeight="540" fitWidth="960" pickOnBounds="true" preserveRatio="true" />
 </VBox>

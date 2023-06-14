@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Encode {
-    private static final String filePathImageOriginal = "S:/ImageForMovieCompression/OutImage/test2/OutImageOriginal/";
-    private static final String filePathSerializedMovie = "S:/ImageForMovieCompression/OutMovie/test2_Movie.jmc"; // jmc - Java Movie Compression
+    private static String filePathImageOriginal = "S:/ImageForMovieCompression/OutImage/test2/OutImageOriginal/";
+    private static String filePathSerializedMovie = "S:/ImageForMovieCompression/OutMovie/test2_Movie.jmc"; // jmc - Java Movie Compression
     private static final List<IFrame> IFrames = new ArrayList<>();
 
     private static final int framesCount = 464; // test2 - 464 кадра; test3 - 1200 кадров
@@ -28,7 +28,9 @@ public class Encode {
         Serializer.serializationObject(IFrames, filePathSerializedMovie);
     }*/
 
-    public static void comressing() {
+    public static void comressing(String pathImage, String pathSave) {
+        filePathImageOriginal = pathImage;
+        filePathSerializedMovie = pathSave;
         convertImageToClass();
         Serializer.serializationObject(IFrames, filePathSerializedMovie);
     }
